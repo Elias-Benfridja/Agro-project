@@ -1,0 +1,13 @@
+# --- Python Basics ---
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints
+
+# --- IGNORE HEAVY FOLDERS ---
+Models/
+dataset/
+
+# --- SAFETY NET (Ignore all large model files anywhere) ---
+*.pth
+*.pt
+*.pkl

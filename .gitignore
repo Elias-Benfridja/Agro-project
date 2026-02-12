@@ -6,8 +6,10 @@ __pycache__/
 # --- IGNORE HEAVY FOLDERS ---
 Models/
 dataset/
-
+venv/
 # --- SAFETY NET (Ignore all large model files anywhere) ---
 *.pth
 *.pt
 *.pkl
+# Ignore python wheel installers
+*.whl

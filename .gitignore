@@ -4,7 +4,6 @@ __pycache__/
 .ipynb_checkpoints
 
 # --- IGNORE HEAVY FOLDERS ---
-Models/
 dataset/
 venv/
 # --- SAFETY NET (Ignore all large model files anywhere) ---

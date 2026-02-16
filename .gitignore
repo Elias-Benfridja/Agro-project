@@ -7,7 +7,7 @@ __pycache__/
 dataset/
 venv/
 # --- SAFETY NET (Ignore all large model files anywhere) ---
-*.pth
+# --- *.pth
 *.pt
 *.pkl
 # Ignore python wheel installers

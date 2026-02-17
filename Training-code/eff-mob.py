@@ -10,26 +10,23 @@ import zipfile
 from google.colab import drive
 from google.colab import files
 
-# ==========================================
-# 1. SETUP & DATA EXTRACTION
-# ==========================================
 
-# A. Mount Google Drive
+
+
 print("Mounting Google Drive...")
 drive.mount('/content/drive')
 
-# --- CONFIGURATION ---
-# Make sure 'plants.zip' is in your Google Drive main folder
+
 ZIP_PATH = '/content/drive/MyDrive/plants.zip' 
 EXTRACT_PATH = '/content/dataset'
 BATCH_SIZE = 32
-NUM_EPOCHS = 10  # Increase to 20-30 if results are not good enough
-INPUT_SIZE = 224 # Standard size for these models
+NUM_EPOCHS = 10  
+INPUT_SIZE = 224 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 print(f"Using device: {DEVICE}")
 
-# B. Unzip the Dataset
+
 if not os.path.exists(EXTRACT_PATH):
     print(f"Unzipping {ZIP_PATH}...")
     try:
@@ -43,22 +40,17 @@ if not os.path.exists(EXTRACT_PATH):
 else:
     print("Dataset already unzipped. Skipping.")
 
-# ==========================================
-# C. SET THE DATA DIRECTORY (Fixed)
-# ==========================================
-# We verified this path in the previous step:
+
 DATA_DIR = '/content/dataset/dataset' 
 
 print(f"Dataset location: {DATA_DIR}")
 
-# Check if it works before continuing
+
 if not os.path.exists(DATA_DIR):
     print("❌ ERROR: The path isn't found. Please run the 'Fix-It' script again.")
 else:
     print("✅ Path found! Loading images...")
-# ==========================================
-# 2. PREPROCESSING & DATALOADERS
-# ==========================================
+
 
 data_transforms = {
     'train': transforms.Compose([
@@ -81,7 +73,7 @@ full_dataset = datasets.ImageFolder(DATA_DIR, transform=data_transforms['train']
 class_names = full_dataset.classes
 print(f"Classes found: {class_names}")
 
-# Split 80% Train, 20% Val
+
 train_size = int(0.8 * len(full_dataset))
 val_size = len(full_dataset) - train_size
 train_dataset, val_dataset = torch.utils.data.random_split(full_dataset, [train_size, val_size])
@@ -92,9 +84,7 @@ dataloaders = {
 }
 dataset_sizes = {'train': train_size, 'val': val_size}
 
-# ==========================================
-# 3. TRAINING ENGINE
-# ==========================================
+
 
 def get_model(model_name, num_classes):
     if model_name == 'efficientnet':
@@ -159,9 +149,7 @@ def train_model(model, criterion, optimizer, num_epochs=10):
     model.load_state_dict(best_model_wts)
     return model, best_acc, time_elapsed
 
-# ==========================================
-# 4. EXECUTION & COMPARISON
-# ==========================================
+
 
 print("\n>>>>>>>> STARTING EFFICIENTNET TRAINING <<<<<<<<")
 model_eff = get_model('efficientnet', len(class_names))
@@ -174,9 +162,7 @@ model_mob = get_model('mobilenet', len(class_names))
 optimizer_mob = optim.Adam(model_mob.parameters(), lr=0.001)
 best_model_mob, acc_mob, time_mob = train_model(model_mob, criterion, optimizer_mob, NUM_EPOCHS)
 
-# ==========================================
-# 5. FINAL RESULTS & SAVING
-# ==========================================
+
 
 print("\n==========================================")
 print("             FINAL COMPARISON             ")
@@ -185,7 +171,7 @@ print(f"EfficientNet | Accuracy: {acc_eff*100:.2f}% | Time: {time_eff:.0f}s")
 print(f"MobileNetV3  | Accuracy: {acc_mob*100:.2f}% | Time: {time_mob:.0f}s")
 print("==========================================")
 
-# Determine winner and save
+
 if acc_eff > acc_mob:
     winner = "EfficientNet"
     best_model = best_model_eff

@@ -47,9 +47,9 @@ print(f"Dataset location: {DATA_DIR}")
 
 
 if not os.path.exists(DATA_DIR):
-    print("❌ ERROR: The path isn't found. Please run the 'Fix-It' script again.")
+    print("ERROR: The path isn't found. Please run the 'Fix-It' script again.")
 else:
-    print("✅ Path found! Loading images...")
+    print("Path found! Loading images...")
 
 
 data_transforms = {

@@ -24,7 +24,7 @@ def load_model():
     try:
         model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
     except FileNotFoundError:
-        print(f"❌ Error: Model file not found at {MODEL_PATH}")
+        print(f"Error: Model file not found at {MODEL_PATH}")
         exit()
         
     model = model.to(device)
@@ -60,7 +60,7 @@ def predict_image(image_path):
         return class_name
         
     except Exception as e:
-        print(f"❌ Error processing image: {e}")
+        print(f"Error processing image: {e}")
 
 if __name__ == "__main__":
    
